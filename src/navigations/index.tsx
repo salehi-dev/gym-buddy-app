@@ -8,10 +8,12 @@ import PlannerScreen from "../screens/PlannerScreen";
 const Stack = createNativeStackNavigator();
 
 export default function Navigation() {
-  <NavigationContainer>
-    <Stack.Navigator>
-      <Stack.Screen name="Home" component={HomeScreen} />
-      <Stack.Screen name="Planner" component={PlannerScreen} />
-    </Stack.Navigator>
-  </NavigationContainer>;
+  return (
+    <NavigationContainer>
+      <Stack.Navigator>
+        <Stack.Screen name="Home" component={HomeScreen} />
+        <Stack.Screen name="Planner" component={PlannerScreen} />
+      </Stack.Navigator>
+    </NavigationContainer>
+  );
 }
