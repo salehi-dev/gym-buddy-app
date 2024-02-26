@@ -1,6 +1,9 @@
+import { StyleSheet } from "react-native";
 import { StatusBar } from "expo-status-bar";
+
 import Navigation from "./src/navigations";
 import useCachedResources from "./src/hooks/useCachedResources";
+import LoaderAnimation from "./src/components/loader/LoaderAnimation";
 
 export default function App() {
   const isLoaded = useCachedResources();
@@ -12,6 +15,14 @@ export default function App() {
       </>
     );
   } else {
-    return null;
+    return <LoaderAnimation isLoaded={!isLoaded} />;
   }
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+});

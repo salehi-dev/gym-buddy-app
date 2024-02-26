@@ -7,7 +7,7 @@ export default function useCachedResources() {
     async function loadResourcesAndDataAsync() {
       try {
         await Font.loadAsync({
-          "montserrat-regular": require("../../assets/fonts/Montserrat-Regular.ttf"),
+          "montserrat": require("../../assets/fonts/Montserrat-Regular.ttf"),
           "montserrat-bold": require("../../assets/fonts/Montserrat-Bold.ttf"),
         });
       } catch (error) {

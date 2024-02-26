@@ -12,11 +12,13 @@
     "@react-navigation/bottom-tabs": "^6.5.14",
     "@react-navigation/native": "^6.1.12",
     "@react-navigation/native-stack": "^6.9.20",
+    "deprecated-react-native-prop-types": "^2.2.0",
     "expo": "~50.0.7",
     "expo-font": "^11.10.3",
     "expo-status-bar": "~1.11.1",
     "react": "18.2.0",
-    "react-native": "0.73.4"
+    "react-native": "0.73.4",
+    "react-native-animated-loader": "github:kayode001/react-native-animated-loader-typscript"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",

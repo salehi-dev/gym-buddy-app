@@ -6,13 +6,14 @@ import { AppNavigationParams } from "../navigations";
 import WorkoutItem from "../components/WorkoutItem";
 import data from "../data/data.json";
 import { Workout } from "../types/data";
+import { MontserratText } from "../components/styled/MontserratText";
 
 type Props = NativeStackScreenProps<AppNavigationParams, "Home">;
 
 export default function HomeScreen({ navigation }: Props) {
   return (
     <View style={styles.container}>
-      <Text style={styles.header}>New Workouts</Text>
+      <MontserratText style={styles.header}>New Workouts</MontserratText>
       <FlatList
         data={data as Workout[]}
         keyExtractor={(item) => item.slug}
