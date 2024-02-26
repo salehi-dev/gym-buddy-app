@@ -1,40 +1,49 @@
-import { View, Text, StyleSheet, FlatList, Pressable } from "react-native";
-import { NativeStackHeaderProps } from "@react-navigation/native-stack";
-import data from "../../src/data/data.json";
-import { Workout } from "../types/data";
-import WorkoutItem from "../components/WorkoutItem";
+import React from "react";
+import { View, TouchableOpacity, FlatList, StyleSheet } from "react-native";
+import { StackNavigationProp } from "@react-navigation/stack";
+import { useNavigation } from "@react-navigation/native";
 
-export default function HomeScreen({ navigation }: NativeStackHeaderProps) {
+import WorkoutItem from "../components/WorkoutItem";
+import data from "../data/data.json";
+import { Workout } from "../types/data";
+import { MontserratText } from "../components/styled/MontserratText";
+import { RootStackParamList } from "../navigations/Stack";
+
+const HomeScreen = () => {
+  const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
   return (
     <View style={styles.container}>
-      <Text style={styles.header}>New Workouts</Text>
+      <MontserratText style={styles.header}>New Workouts</MontserratText>
       <FlatList
         data={data as Workout[]}
+        keyExtractor={(item) => item.slug}
         renderItem={({ item }) => {
           return (
-            <Pressable
+            <TouchableOpacity
               onPress={() =>
-                navigation.navigate("WorkoutDetail", { slug: item.slug })
+                navigation.navigate("WorkDetail", { slug: item.slug })
               }
             >
               <WorkoutItem item={item} />
-            </Pressable>
+            </TouchableOpacity>
           );
         }}
-        keyExtractor={(item) => item.slug}
       />
     </View>
   );
-}
+};
+
+export default HomeScreen;
 
 const styles = StyleSheet.create({
   container: {
-    padding: 20,
     flex: 1,
+    padding: 20,
   },
   header: {
     fontSize: 20,
     marginBottom: 20,
     fontWeight: "bold",
+    fontFamily: "montserrat-bold",
   },
 });
