@@ -1,25 +1,16 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { View, TouchableOpacity, FlatList, StyleSheet } from "react-native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { useNavigation } from "@react-navigation/native";
 
 import WorkoutItem from "../components/WorkoutItem";
-import { Workout } from "../types/data";
 import { MontserratText } from "../components/styled/MontserratText";
 import { RootStackParamList } from "../navigations/Stack";
-import { getWorkouts } from "../storage/workout";
+import { useWorkouts } from "../hooks/useWorkouts";
 
 const HomeScreen = () => {
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
-  const [workouts, setWorkouts] = useState<Workout[]>([]);
-
-  useEffect(() => {
-    async function getData() {
-      const _workouts = await getWorkouts();
-      setWorkouts(_workouts);
-    }
-    getData();
-  }, []);
+  const workouts = useWorkouts();
   return (
     <View style={styles.container}>
       <MontserratText style={styles.header}>New Workouts</MontserratText>
