@@ -1,16 +1,23 @@
-import React, { useMemo } from "react";
-import { NavigationContainer } from "@react-navigation/native";
+import { FontAwesome, Entypo } from "@expo/vector-icons";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { AntDesign, MaterialCommunityIcons } from "@expo/vector-icons";
-
+import { NavigationContainer } from "@react-navigation/native";
 import HomeScreen from "../screens/HomeScreen";
 import PlannerScreen from "../screens/PlannerScreen";
+import WorkoutDetailScreen from "../screens/WorkoutDetailScreen";
 
-export type AppNavigationParams = {
+
+import { createStackNavigator } from '@react-navigation/stack';
+
+type RootStackNavigatorParamsList = {
   Home: undefined;
-  Planner: undefined;
+  Details: undefined;
 };
+
+
+
+
+
 
 export default function Navigation() {
   return (
@@ -19,27 +26,24 @@ export default function Navigation() {
     </NavigationContainer>
   );
 }
-
-const RootStack = createNativeStackNavigator();
-
+const Stack = createStackNavigator<RootStackNavigatorParamsList>();
 function RootNavigator() {
-  const navigator = useMemo(() => {
-    return (
-      <RootStack.Navigator>
-        <RootStack.Screen
-          name="Root"
-          component={BottomTabNavigator}
-          options={{ headerShown: false }}
-        />
-      </RootStack.Navigator>
-    );
-  }, []);
-
-  return navigator;
+  return (
+    <Stack.Navigator>
+      <Stack.Screen
+        name="Root"
+        component={BottomTabNavigator}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="WorkoutDetail"
+        component={WorkoutDetailScreen}
+        options={{ title: "Workout Info" }}
+      />
+    </Stack.Navigator>
+  );
 }
-
 const BottomTab = createBottomTabNavigator<AppNavigationParams>();
-
 function BottomTabNavigator() {
   return (
     <BottomTab.Navigator initialRouteName="Home">
@@ -48,7 +52,7 @@ function BottomTabNavigator() {
         component={HomeScreen}
         options={{
           tabBarIcon: ({ color, size }) => (
-            <AntDesign name="home" size={size} color={color} />
+            <FontAwesome name="home" size={size} color={color} />
           ),
         }}
       />
@@ -57,11 +61,7 @@ function BottomTabNavigator() {
         component={PlannerScreen}
         options={{
           tabBarIcon: ({ color, size }) => (
-            <MaterialCommunityIcons
-              name="plus-network-outline"
-              size={size}
-              color={color}
-            />
+            <Entypo name="add-to-list" size={size} color={color} />
           ),
         }}
       />
