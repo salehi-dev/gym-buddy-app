@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import { View, Text, StyleSheet, Modal } from "react-native";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../navigations/Stack";
 import { useWorkoutBySlug } from "../hooks/useWorkoutBySlug";
@@ -18,6 +18,9 @@ export default function WorkoutDetailScreen({ route }: Props) {
         text="Check Sequence"
         onPress={() => alert("Opening modal")}
       />
+      <Modal visible={true} transparent={true} animationType="slide">
+        <Text>Hello there</Text>
+      </Modal>
     </View>
   );
 }
