@@ -1,10 +1,19 @@
 import { View, Text, StyleSheet } from "react-native";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../navigations/Stack";
+import { useEffect } from "react";
+import { getWorkoutBySlug } from "../storage/workout";
 
 type Props = NativeStackScreenProps<RootStackParamList, "WorkDetail">;
 
 export default function WorkoutDetailScreen({ route }: Props) {
+  useEffect(() => {
+    async function getData() {
+      const workout = await getWorkoutBySlug(route.params.slug);
+      console.log(workout);
+    }
+    getData();
+  }, []);
   return (
     <View style={styles.container}>
       <Text style={styles.header}>Slug - {route.params.slug}</Text>

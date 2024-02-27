@@ -11,7 +11,6 @@ export const useWorkouts = () => {
     async function getData() {
       const _workouts = await getWorkouts();
       setWorkouts(_workouts);
-      console.log("get data");
     }
     if (isFocused) {
       getData();
