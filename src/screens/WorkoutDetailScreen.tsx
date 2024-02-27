@@ -3,6 +3,8 @@ import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../navigations/Stack";
 import { useWorkoutBySlug } from "../hooks/useWorkoutBySlug";
 import PressableText from "../components/styled/PressableText";
+import { useState } from "react";
+import CustomModal from "../components/styled/CustomModal";
 
 type Props = NativeStackScreenProps<RootStackParamList, "WorkDetail">;
 
@@ -14,13 +16,11 @@ export default function WorkoutDetailScreen({ route }: Props) {
   return (
     <View style={styles.container}>
       <Text style={styles.header}>{workout.name}</Text>
-      <PressableText
-        text="Check Sequence"
-        onPress={() => alert("Opening modal")}
+      <CustomModal
+        activator={({ handleOpen }) => (
+          <PressableText text="Check Sequence" onPress={handleOpen} />
+        )}
       />
-      <Modal visible={true} transparent={true} animationType="slide">
-        <Text>Hello there</Text>
-      </Modal>
     </View>
   );
 }
