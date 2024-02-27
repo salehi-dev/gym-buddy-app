@@ -1,10 +1,10 @@
-import { View, Text, StyleSheet, Modal } from "react-native";
+import { View, Text, StyleSheet } from "react-native";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../navigations/Stack";
 import { useWorkoutBySlug } from "../hooks/useWorkoutBySlug";
 import PressableText from "../components/styled/PressableText";
-import { useState } from "react";
 import CustomModal from "../components/styled/CustomModal";
+import { formatSec } from "../utils/time";
 
 type Props = NativeStackScreenProps<RootStackParamList, "WorkDetail">;
 
@@ -20,7 +20,15 @@ export default function WorkoutDetailScreen({ route }: Props) {
         activator={({ handleOpen }) => (
           <PressableText text="Check Sequence" onPress={handleOpen} />
         )}
-      />
+      >
+        <View>
+          {workout.sequence.map((item) => (
+            <Text key={item.slug}>
+              {item.name} | {item.type} | {formatSec(item.duration)}
+            </Text>
+          ))}
+        </View>
+      </CustomModal>
     </View>
   );
 }

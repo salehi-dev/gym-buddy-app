@@ -1,15 +1,17 @@
 import React, { FunctionComponent, useState } from "react";
-import { Text, View, Modal, StyleSheet } from "react-native";
+import { View, Modal, StyleSheet } from "react-native";
+
 import PressableText from "./PressableText";
 
 type CustomModalProps = {
   activator?: FunctionComponent<{
     handleOpen: () => void;
   }>;
+  children: React.ReactNode;
 };
-
 export default function CustomModal({
   activator: Activator,
+  children,
 }: CustomModalProps) {
   const [isModalVisible, setIsModalVisible] = useState(false);
   return (
@@ -28,7 +30,7 @@ export default function CustomModal({
         animationType="slide"
       >
         <View style={styles.closeBottm}>
-          <Text>Hello there</Text>
+          {children}
           <PressableText
             text="Close"
             onPress={() => setIsModalVisible(false)}
