@@ -4,18 +4,18 @@ import { StackNavigationProp } from "@react-navigation/stack";
 import { useNavigation } from "@react-navigation/native";
 
 import WorkoutItem from "../components/WorkoutItem";
-import data from "../data/data.json";
-import { Workout } from "../types/data";
 import { MontserratText } from "../components/styled/MontserratText";
 import { RootStackParamList } from "../navigations/Stack";
+import { useWorkouts } from "../hooks/useWorkouts";
 
 const HomeScreen = () => {
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
+  const workouts = useWorkouts();
   return (
     <View style={styles.container}>
       <MontserratText style={styles.header}>New Workouts</MontserratText>
       <FlatList
-        data={data as Workout[]}
+        data={workouts}
         keyExtractor={(item) => item.slug}
         renderItem={({ item }) => {
           return (
