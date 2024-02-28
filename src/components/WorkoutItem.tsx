@@ -1,14 +1,23 @@
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, StyleProp, ViewStyle } from "react-native";
 import { Workout } from "../types/data";
 import React from "react";
 import { formatSec } from "../utils/time";
 
-export default function WorkoutItem({ item }: { item: Workout }) {
+export default function WorkoutItem({
+  item,
+  children,
+  childStyle = {},
+}: {
+  item: Workout;
+  children?: React.ReactNode;
+  childStyle?: StyleProp<ViewStyle>;
+}) {
   return (
     <View style={styles.container}>
       <Text style={styles.name}>{item.name}</Text>
-      <Text style={styles.duration}>Duration: {formatSec(item.duration)}</Text>
-      <Text style={styles.defficulty}>Defficulty: {item.difficulty}</Text>
+      <Text style={styles.details}>Duration: {formatSec(item.duration)}</Text>
+      <Text style={styles.details}>Defficulty: {item.difficulty}</Text>
+      <View style={childStyle}>{children}</View>
     </View>
   );
 }
@@ -27,10 +36,9 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     marginBottom: 5,
   },
-  duration: {
+  details: {
     fontSize: 15,
-  },
-  defficulty: {
-    fontSize: 15,
+    margin: 1,
+    padding: 2,
   },
 });
