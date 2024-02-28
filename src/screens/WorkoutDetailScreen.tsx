@@ -1,5 +1,7 @@
 import { View, Text, StyleSheet } from "react-native";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
+import { FontAwesome } from "@expo/vector-icons";
+
 import { RootStackParamList } from "../navigations/Stack";
 import { useWorkoutBySlug } from "../hooks/useWorkoutBySlug";
 import PressableText from "../components/styled/PressableText";
@@ -22,10 +24,15 @@ export default function WorkoutDetailScreen({ route }: Props) {
         )}
       >
         <View>
-          {workout.sequence.map((item) => (
-            <Text key={item.slug}>
-              {item.name} | {item.type} | {formatSec(item.duration)}
-            </Text>
+          {workout.sequence.map((item, index) => (
+            <View style={styles.sequenceItem} key={item.slug}>
+              <Text>
+                {item.name} | {item.type} | {formatSec(item.duration)}
+              </Text>
+              {index !== workout.sequence.length - 1 && (
+                <FontAwesome name="arrow-down" size={20} />
+              )}
+            </View>
           ))}
         </View>
       </CustomModal>
@@ -41,5 +48,8 @@ const styles = StyleSheet.create({
     fontSize: 20,
     marginBottom: 20,
     fontWeight: "bold",
+  },
+  sequenceItem: {
+    alignItems: "center",
   },
 });

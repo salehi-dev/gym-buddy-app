@@ -29,8 +29,8 @@ export default function CustomModal({
         transparent={!isModalVisible}
         animationType="slide"
       >
-        <View style={styles.closeBottm}>
-          {children}
+        <View style={styles.centerView}>
+          <View style={styles.contentView}>{children}</View>
           <PressableText
             text="Close"
             onPress={() => setIsModalVisible(false)}
@@ -41,10 +41,13 @@ export default function CustomModal({
   );
 }
 const styles = StyleSheet.create({
-  closeBottm: {
+  centerView: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    padding: 6,
+  },
+  contentView: {
+    marginBottom: 20,
+    backgroundColor: "yellow",
   },
 });
