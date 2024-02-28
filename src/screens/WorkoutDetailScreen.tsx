@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { FontAwesome } from "@expo/vector-icons";
@@ -8,11 +9,24 @@ import PressableText from "../components/styled/PressableText";
 import CustomModal from "../components/styled/CustomModal";
 import { formatSec } from "../utils/time";
 import WorkoutItem from "../components/WorkoutItem";
+import { SequenceItem } from "../types/data";
+import { useCountDown } from "../hooks/useCountDown";
 
 type Props = NativeStackScreenProps<RootStackParamList, "WorkDetail">;
 
 export default function WorkoutDetailScreen({ route }: Props) {
+  const [sequence, setSequence] = useState<SequenceItem[]>([]);
+  const [trackerIdx, setTrackerIdx] = useState(-1);
   const workout = useWorkoutBySlug(route.params.slug);
+  const countDown = useCountDown(
+    trackerIdx,
+    trackerIdx >= 0 ? sequence[trackerIdx].duration : -1
+  );
+
+  const addItemToSequence = (index: number) => {
+    setSequence([...sequence, workout!.sequence[index]]);
+    setTrackerIdx(index);
+  };
   if (!workout) {
     return null;
   }
@@ -41,7 +55,13 @@ export default function WorkoutDetailScreen({ route }: Props) {
           </View>
         </CustomModal>
       </WorkoutItem>
-      <FontAwesome name="play-circle-o" size={100} />
+      {sequence.length === 0 && (
+        <FontAwesome
+          name="play-circle-o"
+          size={100}
+          onPress={() => addItemToSequence(0)}
+        />
+      )}
     </View>
   );
 }

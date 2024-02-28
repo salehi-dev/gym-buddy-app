@@ -6,10 +6,10 @@ export interface Workout {
   name: string;
   duration: number;
   difficulty: Difficulty;
-  sequence: Array<Sequence>;
+  sequence: SequenceItem[];
 }
 
-export interface Sequence {
+export interface SequenceItem {
   slug: string;
   name: string;
   type: SequenceType;
