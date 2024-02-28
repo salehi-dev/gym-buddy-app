@@ -23,6 +23,17 @@ export default function WorkoutDetailScreen({ route }: Props) {
     trackerIdx >= 0 ? sequence[trackerIdx].duration : -1
   );
 
+  useEffect(() => {
+    if (!workout) {
+      return;
+    }
+    if (trackerIdx === workout.sequence.length - 1) {
+      return;
+    }
+    if (countDown === 0) {
+      addItemToSequence(trackerIdx + 1);
+    }
+  }, [countDown]);
   const addItemToSequence = (index: number) => {
     setSequence([...sequence, workout!.sequence[index]]);
     setTrackerIdx(index);
@@ -55,13 +66,20 @@ export default function WorkoutDetailScreen({ route }: Props) {
           </View>
         </CustomModal>
       </WorkoutItem>
-      {sequence.length === 0 && (
-        <FontAwesome
-          name="play-circle-o"
-          size={100}
-          onPress={() => addItemToSequence(0)}
-        />
-      )}
+      <View>
+        {sequence.length === 0 && (
+          <FontAwesome
+            name="play-circle-o"
+            size={100}
+            onPress={() => addItemToSequence(0)}
+          />
+        )}
+        {sequence.length > 0 && countDown >= 0 && (
+          <View>
+            <Text>{countDown}</Text>
+          </View>
+        )}
+      </View>
     </View>
   );
 }
