@@ -11,18 +11,19 @@ import { formatSec } from "../utils/time";
 import WorkoutItem from "../components/WorkoutItem";
 import { SequenceItem } from "../types/data";
 import { useCountDown } from "../hooks/useCountDown";
+import { MontserratText } from "../components/styled/MontserratText";
 
 type Props = NativeStackScreenProps<RootStackParamList, "WorkDetail">;
 
 export default function WorkoutDetailScreen({ route }: Props) {
   const [sequence, setSequence] = useState<SequenceItem[]>([]);
   const [trackerIdx, setTrackerIdx] = useState(-1);
+  const [hasRest, setHasRest] = useState(false);
   const workout = useWorkoutBySlug(route.params.slug);
-  const countDown = useCountDown(
+  const { countDown, isRunning, stop } = useCountDown(
     trackerIdx,
     trackerIdx >= 0 ? sequence[trackerIdx].duration : -1
   );
-
   useEffect(() => {
     if (!workout) {
       return;
@@ -30,9 +31,16 @@ export default function WorkoutDetailScreen({ route }: Props) {
     if (trackerIdx === workout.sequence.length - 1) {
       return;
     }
-    if (countDown === 0) {
-      addItemToSequence(trackerIdx + 1);
+    function test() {
+      if (countDown === 0) {
+        setHasRest(true);
+        setTimeout(() => {
+          setHasRest(false);
+          addItemToSequence(trackerIdx + 1);
+        }, 3000);
+      }
     }
+    test();
   }, [countDown]);
   const addItemToSequence = (index: number) => {
     setSequence([...sequence, workout!.sequence[index]]);
@@ -41,6 +49,8 @@ export default function WorkoutDetailScreen({ route }: Props) {
   if (!workout) {
     return null;
   }
+  const hasReachedEnd =
+    sequence.length === workout.sequence.length && countDown === 0;
   return (
     <View style={styles.container}>
       <WorkoutItem
@@ -66,7 +76,7 @@ export default function WorkoutDetailScreen({ route }: Props) {
           </View>
         </CustomModal>
       </WorkoutItem>
-      <View>
+      <View style={styles.startBottom}>
         {sequence.length === 0 && (
           <FontAwesome
             name="play-circle-o"
@@ -76,8 +86,22 @@ export default function WorkoutDetailScreen({ route }: Props) {
         )}
         {sequence.length > 0 && countDown >= 0 && (
           <View>
-            <Text>{countDown}</Text>
+            <Text style={styles.counter}>{countDown}</Text>
           </View>
+        )}
+      </View>
+      <View style={styles.infoContainer}>
+        {sequence.length === 0 ? (
+          <MontserratText style={styles.infoText} children="READY TO GO!" />
+        ) : hasRest ? (
+          <MontserratText style={styles.infoText} children="REST TIME +3" />
+        ) : hasReachedEnd ? (
+          <MontserratText style={styles.infoText} children="Great Job!" />
+        ) : (
+          <MontserratText
+            style={styles.infoText}
+            children={sequence[trackerIdx].name}
+          />
         )}
       </View>
     </View>
@@ -95,5 +119,26 @@ const styles = StyleSheet.create({
   },
   sequenceItem: {
     alignItems: "center",
+  },
+  startBottom: {
+    flexDirection: "row",
+    justifyContent: "space-around",
+    alignItems: "center",
+    marginTop: 20,
+  },
+  counter: {
+    fontSize: 55,
+    margin: 2,
+    padding: 5,
+  },
+  infoContainer: {
+    alignItems: "center",
+    paddingVertical: 15,
+    marginVertical: 25,
+  },
+  infoText: {
+    fontSize: 30,
+    fontWeight: "700",
+    color: "#2979FF",
   },
 });
