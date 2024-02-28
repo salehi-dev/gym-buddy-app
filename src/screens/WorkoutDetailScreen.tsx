@@ -41,6 +41,7 @@ export default function WorkoutDetailScreen({ route }: Props) {
           </View>
         </CustomModal>
       </WorkoutItem>
+      <FontAwesome name="play-circle-o" size={100} />
     </View>
   );
 }
