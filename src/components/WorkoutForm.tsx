@@ -6,9 +6,11 @@ export default function WorkoutForm() {
     exerciseName: "",
     duration: "",
   });
-  const onChangeInput = (number: string) => (text: string) => {
-    console.log(text);
-    console.log(number);
+  const onChangeInput = (name: string) => (text: string) => {
+    setForm({
+      ...form,
+      [name]: text,
+    });
   };
 
   return (
@@ -19,14 +21,14 @@ export default function WorkoutForm() {
           value={form.exerciseName}
           placeholder="Exercise Name"
           style={styles.input}
-          onChangeText={onChangeInput}
+          onChangeText={onChangeInput("exerciseName")}
         />
         <TextInput
           value={form.duration}
           placeholder="Duration"
           keyboardType="numeric"
           style={styles.input}
-          onChangeText={onChangeInput}
+          onChangeText={onChangeInput("duration")}
         />
       </View>
     </View>
