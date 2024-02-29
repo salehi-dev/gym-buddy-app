@@ -39,9 +39,10 @@ export default function WorkoutForm({ onSubmit }: WorkoutProps) {
           render={({ field: { onChange, value } }) => (
             <TextInput
               placeholder="Duration (seconds)"
+              keyboardType="numeric"
+              style={styles.input}
               onChangeText={onChange}
               value={value}
-              style={styles.input}
             />
           )}
         />
