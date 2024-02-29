@@ -1,10 +1,13 @@
 import { View, StyleSheet } from "react-native";
-import WorkoutForm from "../components/WorkoutForm";
+import WorkoutForm, { ExerciseForm } from "../components/WorkoutForm";
 
 export default function PlannerScreen() {
+  const handleFormSubmit = (form: ExerciseForm) => {
+    alert(`${form.exerciseName} - ${form.duration}`);
+  };
   return (
     <View style={styles.container}>
-      <WorkoutForm />
+      <WorkoutForm onSubmit={handleFormSubmit} />
     </View>
   );
 }

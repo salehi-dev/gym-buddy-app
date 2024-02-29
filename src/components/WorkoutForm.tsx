@@ -1,22 +1,32 @@
 import { useState } from "react";
-import { Text, View, StyleSheet, TextInput } from "react-native";
+import { View, StyleSheet, TextInput } from "react-native";
 
-export default function WorkoutForm() {
+import { MontserratText } from "./styled/MontserratText";
+import PressableText from "./styled/PressableText";
+
+export type ExerciseForm = {
+  exerciseName: string;
+  duration: string;
+};
+type WorkoutProps = {
+  onSubmit: (form: ExerciseForm) => void;
+};
+
+export default function WorkoutForm({ onSubmit }: WorkoutProps) {
   const [form, setForm] = useState({
     exerciseName: "",
     duration: "",
   });
-  const onChangeInput = (name: string) => (text: string) => {
+  const onChangeInput = (exerciseName: string) => (text: string) => {
     setForm({
       ...form,
-      [name]: text,
+      [exerciseName]: text,
     });
   };
-
   return (
     <View style={styles.container}>
-      <Text>Exercise Form</Text>
-      <View>
+      <MontserratText>Exercise Form</MontserratText>
+      <View style={styles.formContainer}>
         <TextInput
           value={form.exerciseName}
           placeholder="Exercise Name"
@@ -25,11 +35,12 @@ export default function WorkoutForm() {
         />
         <TextInput
           value={form.duration}
-          placeholder="Duration"
+          placeholder="Duration (seconds)"
           keyboardType="numeric"
           style={styles.input}
           onChangeText={onChangeInput("duration")}
         />
+        <PressableText text="Submit" onPress={() => onSubmit(form)} />
       </View>
     </View>
   );
@@ -41,12 +52,16 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     padding: 10,
   },
+  formContainer: {
+    margin: 12,
+  },
   input: {
+    height: 40,
+    padding: 10,
+    marginVertical: 8,
     borderWidth: 1,
-    padding: 8,
     borderRadius: 10,
     borderColor: "gray",
-    marginVertical: 7,
   },
   inputFocused: {
     borderColor: "#4DD0E1",
