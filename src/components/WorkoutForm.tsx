@@ -14,24 +14,42 @@ type WorkoutProps = {
 };
 
 export default function WorkoutForm({ onSubmit }: WorkoutProps) {
-  const { control } = useForm();
+  const { control, handleSubmit } = useForm();
   return (
     <View style={styles.container}>
       <MontserratText>Exercise Form</MontserratText>
       <View style={styles.formContainer}>
         <Controller
           control={control}
-          rules={{
-            required: true,
-          }}
+          rules={{ required: true }}
           name="exerciseName"
           render={({ field: { onChange, value } }) => (
             <TextInput
+              placeholder="Exercise Name"
               onChangeText={onChange}
               value={value}
               style={styles.input}
             />
           )}
+        />
+        <Controller
+          control={control}
+          rules={{ required: true }}
+          name="duration"
+          render={({ field: { onChange, value } }) => (
+            <TextInput
+              placeholder="Duration (seconds)"
+              onChangeText={onChange}
+              value={value}
+              style={styles.input}
+            />
+          )}
+        />
+        <PressableText
+          text="Submit"
+          onPress={handleSubmit((data) => {
+            onSubmit(data as ExerciseForm);
+          })}
         />
       </View>
     </View>
@@ -53,7 +71,7 @@ const styles = StyleSheet.create({
     marginVertical: 8,
     borderWidth: 1,
     borderRadius: 10,
-    borderColor: "gray",
+    borderColor: "rgba(0, 0, 0, 0.4)",
   },
   inputFocused: {
     borderColor: "#4DD0E1",
