@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { View, StyleSheet, TextInput } from "react-native";
+import { View, StyleSheet, TextInput, Text } from "react-native";
+import { useForm, Controller } from "react-hook-form";
 
 import { MontserratText } from "./styled/MontserratText";
 import PressableText from "./styled/PressableText";
@@ -13,34 +14,25 @@ type WorkoutProps = {
 };
 
 export default function WorkoutForm({ onSubmit }: WorkoutProps) {
-  const [form, setForm] = useState({
-    exerciseName: "",
-    duration: "",
-  });
-  const onChangeInput = (exerciseName: string) => (text: string) => {
-    setForm({
-      ...form,
-      [exerciseName]: text,
-    });
-  };
+  const { control } = useForm();
   return (
     <View style={styles.container}>
       <MontserratText>Exercise Form</MontserratText>
       <View style={styles.formContainer}>
-        <TextInput
-          value={form.exerciseName}
-          placeholder="Exercise Name"
-          style={styles.input}
-          onChangeText={onChangeInput("exerciseName")}
+        <Controller
+          control={control}
+          rules={{
+            required: true,
+          }}
+          name="exerciseName"
+          render={({ field: { onChange, value } }) => (
+            <TextInput
+              onChangeText={onChange}
+              value={value}
+              style={styles.input}
+            />
+          )}
         />
-        <TextInput
-          value={form.duration}
-          placeholder="Duration (seconds)"
-          keyboardType="numeric"
-          style={styles.input}
-          onChangeText={onChangeInput("duration")}
-        />
-        <PressableText text="Submit" onPress={() => onSubmit(form)} />
       </View>
     </View>
   );
