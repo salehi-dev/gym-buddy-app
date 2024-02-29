@@ -21,7 +21,7 @@ export default function WorkoutDetailScreen({ route }: Props) {
   const [trackerIdx, setTrackerIdx] = useState(-1);
   const [hasRest, setHasRest] = useState(false);
   const workout = useWorkoutBySlug(route.params.slug);
-
+  const startupSeq = ["3", "2", "1", "Let's Go"].reverse();
   const { countDown, isRunning, stop, start } = useCountDown(trackerIdx);
   useEffect(() => {
     if (!workout) {
@@ -35,15 +35,20 @@ export default function WorkoutDetailScreen({ route }: Props) {
       setTimeout(() => {
         setHasRest(false);
         addItemToSequence(trackerIdx + 1);
-      }, 3000);
+      }, 1200);
     }
   }, [countDown]);
 
-  const addItemToSequence = (index: number) => {
-    const newSequence = [...sequence, workout!.sequence[index]];
+  const addItemToSequence = (idx: number) => {
+    let newSequence = [];
+    if (idx > 0) {
+      newSequence = [...sequence, workout!.sequence[idx]];
+    } else {
+      newSequence = [workout!.sequence[idx]];
+    }
     setSequence(newSequence);
-    setTrackerIdx(index);
-    start(newSequence[index].duration);
+    setTrackerIdx(idx);
+    start(newSequence[idx].duration + startupSeq.length);
   };
   if (!workout) {
     return null;
@@ -80,7 +85,7 @@ export default function WorkoutDetailScreen({ route }: Props) {
         {sequence.length === 0 ? (
           <MontserratText style={styles.infoText} children="READY TO GO!" />
         ) : hasRest ? (
-          <MontserratText style={styles.infoText} children="REST TIME +3" />
+          <MontserratText style={styles.infoText} children="BREAK +1" />
         ) : hasReachedEnd ? (
           <MontserratText
             style={[styles.infoText, { color: "#64DD17" }]}
@@ -107,16 +112,28 @@ export default function WorkoutDetailScreen({ route }: Props) {
               {hasRest ? (
                 <Text style={styles.counter}>Wait</Text>
               ) : (
-                <Text style={styles.counter}>{countDown}</Text>
+                <Text style={styles.counter}>
+                  {countDown > sequence[trackerIdx].duration
+                    ? startupSeq[countDown - sequence[trackerIdx].duration - 1]
+                    : countDown}
+                </Text>
               )}
             </View>
-            {!hasRest &&
-              !hasReachedEnd &&
-              (isRunning ? (
+            {!hasRest && !hasReachedEnd ? (
+              isRunning ? (
                 <AppButton title="puse" onPress={() => stop()} />
               ) : (
                 <AppButton title="continue" onPress={() => start(countDown)} />
-              ))}
+              )
+            ) : (
+              hasReachedEnd && (
+                <AppButton
+                  title="start again"
+                  viewStyle={{ backgroundColor: "hsl(206,100%,40%)" }}
+                  onPress={() => addItemToSequence(0)}
+                />
+              )
+            )}
           </View>
         )}
       </View>
