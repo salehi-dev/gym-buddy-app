@@ -19,60 +19,65 @@ export default function WorkoutForm({ onSubmit }: WorkoutProps) {
   const { control, handleSubmit } = useForm();
   return (
     <View style={styles.container}>
-      <MontserratText>Exercise Form</MontserratText>
+      <MontserratText style={{ color: "black" }}>Exercise Form</MontserratText>
       <View style={styles.formContainer}>
-        <Controller
-          control={control}
-          rules={{ required: true }}
-          name="exerciseName"
-          render={({ field: { onChange, value } }) => (
-            <TextInput
-              placeholder="Exercise Name"
-              onChangeText={onChange}
-              value={value}
-              style={styles.input}
-            />
-          )}
-        />
-        <Controller
-          control={control}
-          rules={{ required: true }}
-          name="duration"
-          render={({ field: { onChange, value } }) => (
-            <TextInput
-              placeholder="Duration (seconds)"
-              keyboardType="numeric"
-              style={styles.input}
-              onChangeText={onChange}
-              value={value}
-            />
-          )}
-        />
-        <Controller
-          control={control}
-          name="reps"
-          render={({ field: { onChange, value } }) => (
-            <TextInput
-              placeholder="Repetitions"
-              style={styles.input}
-              onChangeText={onChange}
-              value={value}
-            />
-          )}
-        />
-        <Controller
-          control={control}
-          rules={{ required: true }}
-          name="type"
-          render={({ field: { onChange, value } }) => (
-            <TextInput
-              placeholder="Type"
-              style={styles.input}
-              onChangeText={onChange}
-              value={value}
-            />
-          )}
-        />
+        <View style={styles.rowContainer}>
+          <Controller
+            control={control}
+            rules={{ required: true }}
+            name="exerciseName"
+            render={({ field: { onChange, value } }) => (
+              <TextInput
+                placeholder="Exercise Name"
+                onChangeText={onChange}
+                value={value}
+                style={styles.input}
+              />
+            )}
+          />
+          <Controller
+            control={control}
+            rules={{ required: true }}
+            name="duration"
+            render={({ field: { onChange, value } }) => (
+              <TextInput
+                placeholder="Duration (seconds)"
+                keyboardType="numeric"
+                style={styles.input}
+                onChangeText={onChange}
+                value={value}
+              />
+            )}
+          />
+        </View>
+        <View style={styles.rowContainer}>
+          <Controller
+            control={control}
+            name="reps"
+            render={({ field: { onChange, value } }) => (
+              <TextInput
+                placeholder="Repetitions (optional)"
+                keyboardType="numeric"
+                style={styles.input}
+                onChangeText={onChange}
+                value={value}
+              />
+            )}
+          />
+          <Controller
+            control={control}
+            rules={{ required: true }}
+            name="type"
+            render={({ field: { onChange, value } }) => (
+              <TextInput
+                placeholder="Type"
+                style={styles.input}
+                onChangeText={onChange}
+                value={value}
+              />
+            )}
+          />
+        </View>
         <PressableText
           text="Submit"
           onPress={handleSubmit((data) => {
@@ -91,17 +96,21 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   formContainer: {
-    margin: 12,
+    marginVertical: 8,
   },
   input: {
+    flex: 1,
     height: 40,
     padding: 10,
-    marginVertical: 8,
+    margin: 5,
     borderWidth: 1,
     borderRadius: 10,
     borderColor: "rgba(0, 0, 0, 0.4)",
   },
   inputFocused: {
     borderColor: "#4DD0E1",
+  },
+  rowContainer: {
+    flexDirection: "row",
   },
 });
