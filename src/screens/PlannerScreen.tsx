@@ -3,7 +3,9 @@ import WorkoutForm, { ExerciseForm } from "../components/WorkoutForm";
 
 export default function PlannerScreen() {
   const handleFormSubmit = (form: ExerciseForm) => {
-    alert(`${form.exerciseName}`);
+    alert(
+      `${form.exerciseName} - ${form.duration} - ${form.reps} - ${form.type}`
+    );
   };
   return (
     <View style={styles.container}>
