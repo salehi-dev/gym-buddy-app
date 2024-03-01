@@ -114,6 +114,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     borderRadius: 10,
     padding: 10,
+    marginBottom: 20,
   },
   formContainer: {
     marginVertical: 8,
