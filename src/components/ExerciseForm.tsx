@@ -5,18 +5,20 @@ import { useForm, Controller } from "react-hook-form";
 import { MontserratText } from "./styled/MontserratText";
 import PressableText from "./styled/PressableText";
 
-export type ExerciseForm = {
+export type ExerciseFormData = {
   exerciseName: string;
   duration: string;
   type: string;
   reps?: number;
 };
 type WorkoutProps = {
-  onSubmit: (form: ExerciseForm) => void;
+  onSubmit: (form: ExerciseFormData) => void;
 };
+const selectionItems = ["exercise", "break", "stritch"];
 
-export default function WorkoutForm({ onSubmit }: WorkoutProps) {
+export default function ExerciseForm({ onSubmit }: WorkoutProps) {
   const { control, handleSubmit } = useForm();
+  const [isSelectionOn, setIsSelectionOn] = useState(false);
   return (
     <View style={styles.container}>
       <MontserratText style={{ color: "black" }}>Exercise Form</MontserratText>
@@ -69,19 +71,37 @@ export default function WorkoutForm({ onSubmit }: WorkoutProps) {
             rules={{ required: true }}
             name="type"
             render={({ field: { onChange, value } }) => (
-              <TextInput
-                placeholder="Type"
-                style={styles.input}
-                onChangeText={onChange}
-                value={value}
-              />
+              <View style={{ flex: 1 }}>
+                {isSelectionOn ? (
+                  <View>
+                    {selectionItems.map((item) => (
+                      <PressableText
+                        key={item}
+                        style={styles.selection}
+                        text={item}
+                        onPressIn={() => {
+                          onChange(item);
+                          setIsSelectionOn(false);
+                        }}
+                      />
+                    ))}
+                  </View>
+                ) : (
+                  <TextInput
+                    placeholder="Type"
+                    style={styles.input}
+                    onPressIn={() => setIsSelectionOn(true)}
+                    value={value}
+                  />
+                )}
+              </View>
             )}
           />
         </View>
         <PressableText
           text="Submit"
           onPress={handleSubmit((data) => {
-            onSubmit(data as ExerciseForm);
+            onSubmit(data as ExerciseFormData);
           })}
         />
       </View>
@@ -112,5 +132,10 @@ const styles = StyleSheet.create({
   },
   rowContainer: {
     flexDirection: "row",
+  },
+  selection: {
+    margin: 2,
+    padding: 3,
+    alignSelf: "center",
   },
 });
