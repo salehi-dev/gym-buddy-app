@@ -4,7 +4,13 @@ import { SequenceItem } from "../types/data";
 import { MontserratText } from "./styled/MontserratText";
 import { formatSec } from "../utils/time";
 
-export default function ExerciseItem({ item }: { item: SequenceItem }) {
+export default function ExerciseItem({
+  item,
+  children,
+}: {
+  item: SequenceItem;
+  children: ReactNode;
+}) {
   return (
     <View style={styles.container}>
       <MontserratText style={styles.name}>{item.name}</MontserratText>
@@ -25,6 +31,13 @@ export default function ExerciseItem({ item }: { item: SequenceItem }) {
           Type: <Text style={styles.info}>{item.type}</Text>
         </MontserratText>
       </View>
+      <View
+        style={{
+          alignItems: "center",
+        }}
+      >
+        {children}
+      </View>
     </View>
   );
 }
@@ -35,7 +48,8 @@ const styles = StyleSheet.create({
     backgroundColor: "#D7CCC8",
     borderColor: "rgba(0, 0, 0, 0.1)",
     borderWidth: 1,
-    paddingVertical: 15,
+    paddingTop: 15,
+    paddingBottom: 8,
     paddingHorizontal: 20,
     marginVertical: 10,
   },
