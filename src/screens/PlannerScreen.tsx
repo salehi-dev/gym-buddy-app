@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { View, StyleSheet, ScrollView } from "react-native";
-import slugify from "slugify";
 import { useNavigation } from "@react-navigation/native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import slugify from "slugify";
 
 import ExerciseForm, { ExerciseFormData } from "../components/ExerciseForm";
 import { SequenceItem, SequenceType, Workout } from "../types/data";
@@ -10,9 +11,12 @@ import PressableText from "../components/styled/PressableText";
 import CustomModal from "../components/styled/CustomModal";
 import AppButton from "../components/styled/AppButtom";
 import WorkoutForm, { WorkoutFormData } from "../components/WorkoutForm";
+import { BottomTabsParamList } from "../navigations/BottomTab";
 
 export default function PlannerScreen() {
-  const navigation = useNavigation();
+  const { navigate } =
+    useNavigation<NativeStackNavigationProp<BottomTabsParamList>>();
+
   const [seqItems, setSeqItems] = useState<SequenceItem[]>([]);
   const handleExerciseSubmit = (form: ExerciseFormData) => {
     const sequenceItem: SequenceItem = {
@@ -84,7 +88,7 @@ export default function PlannerScreen() {
                   onSubmit={(data) => {
                     handleWorkoutSubmit(data);
                     handleClose();
-                    navigation.navigate("Home" as never);
+                    navigate("Home");
                   }}
                 />
               </View>
