@@ -64,10 +64,7 @@ export default function PlannerScreen() {
   };
 
   return (
-    <ScrollView
-      showsVerticalScrollIndicator={false}
-      keyboardDismissMode="on-drag"
-    >
+    <ScrollView showsVerticalScrollIndicator={false}>
       <View style={styles.container}>
         <ExerciseForm onSubmit={handleExerciseSubmit} />
         <View>

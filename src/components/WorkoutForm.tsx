@@ -2,7 +2,6 @@ import { useState } from "react";
 import { View, StyleSheet, TextInput, Text } from "react-native";
 import { useForm, Controller } from "react-hook-form";
 
-import { MontserratText } from "./styled/MontserratText";
 import PressableText from "./styled/PressableText";
 
 export type WorkoutFormData = {
@@ -38,6 +37,7 @@ export default function WorkoutForm({ onSubmit }: WorkoutProps) {
           textStyle={{
             color: "#FAFAFA",
             textDecorationLine: "none",
+            fontSize: 17,
           }}
         />
       </View>
@@ -56,8 +56,8 @@ const styles = StyleSheet.create({
     marginVertical: 8,
   },
   input: {
-    width: 240,
-    height: 40,
+    width: 280,
+    height: 45,
     padding: 10,
     margin: 5,
     borderWidth: 1,
@@ -65,8 +65,10 @@ const styles = StyleSheet.create({
     borderColor: "rgba(0, 0, 0, 0.4)",
   },
   customButtom: {
+    justifyContent: "center",
     alignItems: "center",
-    width: 75,
+    width: 100,
+    height: 40,
     backgroundColor: "crimson",
     padding: 5,
     borderRadius: 5,
