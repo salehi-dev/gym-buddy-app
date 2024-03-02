@@ -1,6 +1,7 @@
 import { useState } from "react";
-import { View, StyleSheet, ScrollView, Text } from "react-native";
+import { View, StyleSheet, ScrollView } from "react-native";
 import slugify from "slugify";
+import { useNavigation } from "@react-navigation/native";
 
 import ExerciseForm, { ExerciseFormData } from "../components/ExerciseForm";
 import { SequenceItem, SequenceType, Workout } from "../types/data";
@@ -9,11 +10,10 @@ import PressableText from "../components/styled/PressableText";
 import CustomModal from "../components/styled/CustomModal";
 import AppButton from "../components/styled/AppButtom";
 import WorkoutForm, { WorkoutFormData } from "../components/WorkoutForm";
-import { NativeStackHeaderProps } from "@react-navigation/native-stack";
 
-export default function PlannerScreen({ navigation }: NativeStackHeaderProps) {
+export default function PlannerScreen() {
+  const navigation = useNavigation();
   const [seqItems, setSeqItems] = useState<SequenceItem[]>([]);
-  const [value, setValue] = useState<string>("");
   const handleExerciseSubmit = (form: ExerciseFormData) => {
     const sequenceItem: SequenceItem = {
       slug: slugify(`${form.name} ${Date.now()}`, { lower: true }),
@@ -84,7 +84,7 @@ export default function PlannerScreen({ navigation }: NativeStackHeaderProps) {
                   onSubmit={(data) => {
                     handleWorkoutSubmit(data);
                     handleClose();
-                    setValue(data.name);
+                    navigation.navigate("Home" as never);
                   }}
                 />
               </View>
