@@ -1,18 +1,21 @@
 import { useState } from "react";
-import { View, StyleSheet, ScrollView } from "react-native";
+import { View, StyleSheet, ScrollView, Text } from "react-native";
 import slugify from "slugify";
 
-import WorkoutForm, { ExerciseFormData } from "../components/ExerciseForm";
-import { SequenceItem, SequenceType } from "../types/data";
+import ExerciseForm, { ExerciseFormData } from "../components/ExerciseForm";
+import { SequenceItem, SequenceType, Workout } from "../types/data";
 import ExerciseItem from "../components/ExerciseItem";
 import PressableText from "../components/styled/PressableText";
+import CustomModal from "../components/styled/CustomModal";
+import AppButton from "../components/styled/AppButtom";
+import WorkoutForm, { WorkoutFormData } from "../components/WorkoutForm";
 
 export default function PlannerScreen() {
   const [seqItems, setSeqItems] = useState<SequenceItem[]>([]);
-  const handleFormSubmit = (form: ExerciseFormData) => {
+  const handleExerciseSubmit = (form: ExerciseFormData) => {
     const sequenceItem: SequenceItem = {
-      slug: slugify(`${form.exerciseName} ${Date.now()}`, { lower: true }),
-      name: form.exerciseName,
+      slug: slugify(`${form.name} ${Date.now()}`, { lower: true }),
+      name: form.name,
       duration: Number(form.duration),
       type: form.type as SequenceType,
     };
@@ -21,25 +24,70 @@ export default function PlannerScreen() {
     }
     setSeqItems([...seqItems, sequenceItem]);
   };
-  const removeHandler = (item: SequenceItem, index: number) => {
+  const computeDiff = (exerciseCount: number, workoutDuration: number) => {
+    const intensity = workoutDuration / exerciseCount;
+    if (intensity <= 60) {
+      return "hard";
+    } else if (intensity <= 100) {
+      return "medium";
+    } else {
+      return "easy";
+    }
+  };
+  const handleWorkoutSubmit = (form: WorkoutFormData) => {
+    if (seqItems.length > 0) {
+      const duration = seqItems.reduce((acc, item) => {
+        return acc + item.duration;
+      }, 0);
+      const workout: Workout = {
+        name: form.name,
+        slug: slugify(`${form.name} ${Date.now()}`, { lower: true }),
+        difficulty: computeDiff(seqItems.length, duration),
+        duration,
+        sequence: [...seqItems],
+      };
+      console.log(workout);
+    } else {
+      alert("You may be create an exercise in create exercise form");
+    }
+  };
+  const removeHandler = (index: number) => {
     const sequence = [...seqItems];
     sequence.splice(index, 1);
     setSeqItems(sequence);
   };
+
   return (
     <ScrollView
       showsVerticalScrollIndicator={false}
       keyboardDismissMode="on-drag"
     >
       <View style={styles.container}>
-        <WorkoutForm onSubmit={handleFormSubmit} />
+        <ExerciseForm onSubmit={handleExerciseSubmit} />
+        <View>
+          <CustomModal
+            activator={({ handleOpen }) => (
+              <View style={{ marginBottom: 18 }}>
+                <AppButton
+                  textStyle={{ fontWeight: "500", fontSize: 18 }}
+                  onPress={handleOpen}
+                  title="Create Workout"
+                />
+              </View>
+            )}
+          >
+            <View>
+              <WorkoutForm onSubmit={handleWorkoutSubmit} />
+            </View>
+          </CustomModal>
+        </View>
         {seqItems.map((item, index) => (
           <ExerciseItem key={item.slug} item={item}>
             <PressableText
               textStyle={{ color: "#FAFAFA", textDecorationLine: "none" }}
               style={styles.customButtom}
               text="Remove"
-              onPressIn={() => removeHandler(item, index)}
+              onPressIn={() => removeHandler(index)}
             />
           </ExerciseItem>
         ))}

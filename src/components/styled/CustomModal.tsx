@@ -48,6 +48,5 @@ const styles = StyleSheet.create({
   },
   contentView: {
     marginBottom: 20,
-    backgroundColor: "yellow",
   },
 });

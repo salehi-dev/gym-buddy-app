@@ -1,12 +1,12 @@
 import { useState } from "react";
-import { View, StyleSheet, TextInput, Text } from "react-native";
+import { View, StyleSheet, TextInput } from "react-native";
 import { useForm, Controller } from "react-hook-form";
 
 import { MontserratText } from "./styled/MontserratText";
 import PressableText from "./styled/PressableText";
 
 export type ExerciseFormData = {
-  exerciseName: string;
+  name: string;
   duration: string;
   type: string;
   reps?: number;
@@ -21,13 +21,17 @@ export default function ExerciseForm({ onSubmit }: WorkoutProps) {
   const [isSelectionOn, setIsSelectionOn] = useState(false);
   return (
     <View style={styles.container}>
-      <MontserratText style={{ color: "black" }}>Exercise Form</MontserratText>
+      <MontserratText
+        style={{ color: "black", textAlign: "center", marginBottom: 5 }}
+      >
+        Create Exercise
+      </MontserratText>
       <View style={styles.formContainer}>
         <View style={styles.rowContainer}>
           <Controller
             control={control}
             rules={{ required: true }}
-            name="exerciseName"
+            name="name"
             render={({ field: { onChange, value } }) => (
               <TextInput
                 placeholder="Exercise Name"
@@ -98,12 +102,19 @@ export default function ExerciseForm({ onSubmit }: WorkoutProps) {
             )}
           />
         </View>
-        <PressableText
-          text="Submit"
-          onPress={handleSubmit((data) => {
-            onSubmit(data as ExerciseFormData);
-          })}
-        />
+        <View style={{ alignItems: "center" }}>
+          <PressableText
+            text="Add"
+            onPress={handleSubmit((data) => {
+              onSubmit(data as ExerciseFormData);
+            })}
+            style={styles.customButtom}
+            textStyle={{
+              color: "#FAFAFA",
+              textDecorationLine: "none",
+            }}
+          />
+        </View>
       </View>
     </View>
   );
@@ -114,6 +125,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     borderRadius: 10,
     padding: 10,
+    paddingBottom: 2,
     marginBottom: 20,
   },
   formContainer: {
@@ -128,9 +140,6 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     borderColor: "rgba(0, 0, 0, 0.4)",
   },
-  inputFocused: {
-    borderColor: "#4DD0E1",
-  },
   rowContainer: {
     flexDirection: "row",
   },
@@ -138,5 +147,14 @@ const styles = StyleSheet.create({
     margin: 2,
     padding: 3,
     alignSelf: "center",
+  },
+  customButtom: {
+    justifyContent: "center",
+    alignItems: "center",
+    width: 75,
+    backgroundColor: "crimson",
+    padding: 5,
+    borderRadius: 5,
+    marginTop: 15,
   },
 });
