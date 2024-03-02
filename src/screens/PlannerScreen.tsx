@@ -9,9 +9,11 @@ import PressableText from "../components/styled/PressableText";
 import CustomModal from "../components/styled/CustomModal";
 import AppButton from "../components/styled/AppButtom";
 import WorkoutForm, { WorkoutFormData } from "../components/WorkoutForm";
+import { NativeStackHeaderProps } from "@react-navigation/native-stack";
 
-export default function PlannerScreen() {
+export default function PlannerScreen({ navigation }: NativeStackHeaderProps) {
   const [seqItems, setSeqItems] = useState<SequenceItem[]>([]);
+  const [value, setValue] = useState<string>("");
   const handleExerciseSubmit = (form: ExerciseFormData) => {
     const sequenceItem: SequenceItem = {
       slug: slugify(`${form.name} ${Date.now()}`, { lower: true }),
@@ -48,7 +50,7 @@ export default function PlannerScreen() {
       };
       console.log(workout);
     } else {
-      alert("You may be create an exercise in create exercise form");
+      alert("You should create an exercise in create exercise form");
     }
   };
   const removeHandler = (index: number) => {
@@ -82,6 +84,7 @@ export default function PlannerScreen() {
                   onSubmit={(data) => {
                     handleWorkoutSubmit(data);
                     handleClose();
+                    setValue(data.name);
                   }}
                 />
               </View>
