@@ -76,9 +76,16 @@ export default function PlannerScreen() {
               </View>
             )}
           >
-            <View>
-              <WorkoutForm onSubmit={handleWorkoutSubmit} />
-            </View>
+            {({ handleClose }) => (
+              <View>
+                <WorkoutForm
+                  onSubmit={(data) => {
+                    handleWorkoutSubmit(data);
+                    handleClose();
+                  }}
+                />
+              </View>
+            )}
           </CustomModal>
         </View>
         {seqItems.map((item, index) => (
