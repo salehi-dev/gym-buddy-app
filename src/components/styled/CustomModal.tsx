@@ -7,22 +7,28 @@ type CustomModalProps = {
   activator?: FunctionComponent<{
     handleOpen: () => void;
   }>;
-  children: React.ReactNode;
+  children: FunctionComponent<{
+    handleOpen: () => void;
+    handleClose: () => void;
+  }>;
 };
 export default function CustomModal({
   activator: Activator,
   children,
 }: CustomModalProps) {
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const handleOpen = () => {
+    setIsModalVisible(true);
+  };
+  const handleClose = () => {
+    setIsModalVisible(false);
+  };
   return (
     <>
       {Activator ? (
-        <Activator handleOpen={() => setIsModalVisible(true)} />
+        <Activator handleOpen={handleOpen} />
       ) : (
-        <PressableText
-          text="Check Sequence"
-          onPress={() => setIsModalVisible(true)}
-        />
+        <PressableText text="Check Sequence" onPress={handleOpen} />
       )}
       <Modal
         visible={isModalVisible}
@@ -30,11 +36,10 @@ export default function CustomModal({
         animationType="slide"
       >
         <View style={styles.centerView}>
-          <View style={styles.contentView}>{children}</View>
-          <PressableText
-            text="Close"
-            onPress={() => setIsModalVisible(false)}
-          />
+          <View style={styles.contentView}>
+            {children({ handleOpen, handleClose })}
+          </View>
+          <PressableText text="Close" onPress={handleClose} />
         </View>
       </Modal>
     </>
@@ -48,6 +53,5 @@ const styles = StyleSheet.create({
   },
   contentView: {
     marginBottom: 20,
-    backgroundColor: "yellow",
   },
 });

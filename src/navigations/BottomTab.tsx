@@ -37,6 +37,7 @@ export const BottomTab = () => {
               color={color}
             />
           ),
+          unmountOnBlur: true,
         }}
       />
     </Tab.Navigator>
