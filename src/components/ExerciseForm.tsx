@@ -35,6 +35,7 @@ export default function ExerciseForm({ onSubmit }: WorkoutProps) {
             render={({ field: { onChange, value } }) => (
               <TextInput
                 placeholder="Exercise Name"
+                placeholderTextColor={"rgba(0, 0, 0, 0.4)"}
                 onChangeText={onChange}
                 value={value}
                 style={styles.input}
@@ -48,6 +49,7 @@ export default function ExerciseForm({ onSubmit }: WorkoutProps) {
             render={({ field: { onChange, value } }) => (
               <TextInput
                 placeholder="Duration (seconds)"
+                placeholderTextColor={"rgba(0, 0, 0, 0.4)"}
                 keyboardType="numeric"
                 style={styles.input}
                 onChangeText={onChange}
@@ -63,6 +65,7 @@ export default function ExerciseForm({ onSubmit }: WorkoutProps) {
             render={({ field: { onChange, value } }) => (
               <TextInput
                 placeholder="Repetitions (optional)"
+                placeholderTextColor={"rgba(0, 0, 0, 0.4)"}
                 keyboardType="numeric"
                 style={styles.input}
                 onChangeText={onChange}
@@ -93,6 +96,7 @@ export default function ExerciseForm({ onSubmit }: WorkoutProps) {
                 ) : (
                   <TextInput
                     placeholder="Type"
+                    placeholderTextColor={"rgba(0, 0, 0, 0.4)"}
                     style={styles.input}
                     onPressIn={() => setIsSelectionOn(true)}
                     value={value}

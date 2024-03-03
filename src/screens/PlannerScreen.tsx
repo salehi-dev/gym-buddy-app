@@ -12,6 +12,7 @@ import CustomModal from "../components/styled/CustomModal";
 import AppButton from "../components/styled/AppButtom";
 import WorkoutForm, { WorkoutFormData } from "../components/WorkoutForm";
 import { BottomTabsParamList } from "../navigations/BottomTab";
+import { storeWorkout } from "../storage/workout";
 
 export default function PlannerScreen() {
   const { navigate } =
@@ -40,7 +41,7 @@ export default function PlannerScreen() {
       return "easy";
     }
   };
-  const handleWorkoutSubmit = (form: WorkoutFormData) => {
+  const handleWorkoutSubmit = async (form: WorkoutFormData) => {
     if (seqItems.length > 0) {
       const duration = seqItems.reduce((acc, item) => {
         return acc + item.duration;
@@ -52,7 +53,7 @@ export default function PlannerScreen() {
         duration,
         sequence: [...seqItems],
       };
-      console.log(workout);
+      await storeWorkout(workout);
     } else {
       alert("You should create an exercise in create exercise form");
     }
@@ -82,8 +83,8 @@ export default function PlannerScreen() {
             {({ handleClose }) => (
               <View>
                 <WorkoutForm
-                  onSubmit={(data) => {
-                    handleWorkoutSubmit(data);
+                  onSubmit={async (data) => {
+                    await handleWorkoutSubmit(data);
                     handleClose();
                     navigate("Home");
                   }}

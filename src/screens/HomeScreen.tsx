@@ -4,16 +4,17 @@ import { StackNavigationProp } from "@react-navigation/stack";
 import { useNavigation } from "@react-navigation/native";
 
 import WorkoutItem from "../components/WorkoutItem";
-import { MontserratText } from "../components/styled/MontserratText";
 import { RootStackParamList } from "../navigations/Stack";
 import { useWorkouts } from "../hooks/useWorkouts";
+import ThemeText from "../components/styled/ThemeText";
 
 const HomeScreen = () => {
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
   const workouts = useWorkouts();
+
   return (
     <View style={styles.container}>
-      <MontserratText style={styles.header}>New Workouts</MontserratText>
+      <ThemeText style={styles.header}>New Workouts</ThemeText>
       <FlatList
         data={workouts}
         keyExtractor={(item) => item.slug}
