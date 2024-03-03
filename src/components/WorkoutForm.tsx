@@ -21,6 +21,7 @@ export default function WorkoutForm({ onSubmit }: WorkoutProps) {
         render={({ field: { onChange, value } }) => (
           <TextInput
             placeholder="Workout Name"
+            placeholderTextColor={"rgba(0, 0, 0, 0.4)"}
             onChangeText={onChange}
             value={value}
             style={styles.input}
